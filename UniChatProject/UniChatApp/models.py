@@ -19,6 +19,7 @@ class Language(models.Model):
 class Settings(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     funMode = models.BooleanField(default=False)
+    hideLastLogin = models.BooleanField(default=False)
     language = models.ForeignKey(Language, on_delete=models.CASCADE, null=True)
 
     # for admin: return back the name of the linked user

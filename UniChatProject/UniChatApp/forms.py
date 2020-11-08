@@ -7,6 +7,6 @@ class SettingsForm(forms.ModelForm):
 
     class Meta:
          model = Settings
-         fields = ('language', 'funMode')
+         fields = ('language', 'funMode', 'hideLastLogin')
 
 
