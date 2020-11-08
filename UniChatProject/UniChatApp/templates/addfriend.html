@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h2>Add Friend</h2>
+
+    {% if errorMessage %}
+        {{ errorMessage}} <br />
+    {% endif %}
+
+    <form method="POST" class="post-form">{% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="save btn btn-default">Save</button>
+    </form>
+
+    <br />
+    <a href="{% url 'index' %}">Don't add a friend</bra> <br />
+
+{% endblock %}

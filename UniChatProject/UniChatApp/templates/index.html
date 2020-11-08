@@ -4,12 +4,25 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
-{% if user.is_authenticated %}
+
   Hi {{ user.username }}!
+
+  <br />
+
+  Chat: {{ chatname }}
+
+  <ul>
+        <li><a href="{% url 'index' %}">Global</a></li>
+
+  {% if friendlist %}
+    {% for entry in friendlist %}
+        <li><a href="{% url 'friendchat' entry.friend.id %}">{{ entry.friend.username }}</a></li>
+    {% endfor %}
+  {% endif %}
+
+  </ul>
+
+  <p><a href="{% url 'addfriend' %}">Add friend</a></p>
   <p><a href="{% url 'logout' %}">Log Out</a></p>
   <p><a href="{% url 'settings' %}">Settings</a></p>
-{% else %}
-  <p>You are not logged in</p>
-  <a href="{% url 'login' %}">Log In</a>
-{% endif %}
 {% endblock %}

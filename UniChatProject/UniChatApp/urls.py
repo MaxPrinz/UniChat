@@ -7,6 +7,14 @@ urlpatterns = [
     path('', views.index, name='index'),
     path('settings/', views.settings, name='settings'),
 
+    # different chat-views
+    path('userchat/<int:friend_id>', views.friendchat, name='friendchat'),
+    path('groupchat/<int:group_id>', views.groupchat, name='groupchat'),
+
+    # add a new friend
+    path('addfriend', views.addfriend, name='addfriend'),
+
+    # for accessing admin-functionality
     path('admin/', admin.site.urls),
 
     # for SignUp

@@ -27,4 +27,12 @@ class Settings(models.Model):
         return self.user.__str__()
 
 
+# List of friends from creator-user
+class Friendlist(models.Model):
+    creator = models.ForeignKey(User, on_delete=models.CASCADE)
+    friend = models.ForeignKey(User, on_delete=models.CASCADE, related_name='+')
+
+    # for admin: return back a usefull name
+    def __str__(self):
+        return self.creator.__str__() + ' with Friend '+self.friend.__str__()
 

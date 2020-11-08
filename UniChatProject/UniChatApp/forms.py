@@ -10,3 +10,7 @@ class SettingsForm(forms.ModelForm):
          fields = ('language', 'funMode', 'hideLastLogin')
 
 
+class AddFriendForm(forms.Form):
+    friendId = forms.IntegerField(label='Friend Id', required=False)
+    friendName = forms.CharField(label='Friend Username', max_length=150, required=False)
+    friendEmail = forms.EmailField(label='Friend eMail', required=False)
