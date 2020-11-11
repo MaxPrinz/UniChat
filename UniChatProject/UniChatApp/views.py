@@ -4,6 +4,7 @@ from django.shortcuts import render, redirect
 
 # Create your views here.
 from .forms import SettingsForm, AddFriendForm
+from .functionsUser import getFriendOfUser, getUserOrNone
 from .models import Settings, Friendlist
 
 
@@ -36,35 +37,7 @@ def settings(request):
     return render(request, 'settings.html', {'form': form})
 
 
-def getUserOrNone(user_id=None, user_name=None, user_email=None):
-    try:
-        if user_id:
-            return User.objects.get(id=user_id)
-        if user_name:
-            return User.objects.get(username=user_name)
-        if user_email:
-            return User.objects.get(email=user_email)
-    except User.DoesNotExist:
-        return None
 
-    # no if matched, return none
-    return None
-
-
-def getFriendOfUser(user, friend_id):
-    # check if friend exist
-    friend=getUserOrNone(user_id=friend_id)
-    if not friend:
-        return None
-
-    # check if friend is really a friend
-    try:
-        friendlistEntry = Friendlist.objects.get(creator=user, friend=friend)
-    except Friendlist.DoesNotExist:
-        return None
-
-    # all good, the two are friends, return the friend
-    return friend
 
 
 def friendchat(request, friend_id):
