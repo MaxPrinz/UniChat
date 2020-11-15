@@ -8,7 +8,9 @@
 <body>
 {% load static %}
 <img width="200" src="{% static "Logo.png" %}" alt="My Image" />
+{% if user.is_authenticated %}
 {% include "nav_bar.html" %}
+{% endif %}
   <main>
     {% block content %}
     {% endblock %}
