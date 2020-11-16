@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 
 
 # Create your views here.
-from .forms import SettingsForm, AddFriendForm
+from .forms import SettingsForm, AddFriendForm, CreateGroupForm
 from .functionsUser import getFriendOfUser, getUserOrNone
 from .models import Settings, Friendlist
 
@@ -124,4 +124,23 @@ def addfriend(request):
         form = AddFriendForm()
 
     return render(request, 'addfriend.html', {'form': form,
+                                              'errorMessage': errorMessage})
+
+def creategroup(request):
+    # make sure the current user is authenticated. If not go to login-screen
+    if not request.user.is_authenticated:
+        return redirect("login")
+
+    errorMessage=None
+    if request.method == "POST":
+        form = CreateGroupForm(request.POST)
+        if form.is_valid():
+            # auslesesn welche Freunde angekreuzt wurden.
+            # Gruppe erschaffen und in DB abspeichern.
+            # --> Form noch anpassen, dass alle Freunde geladen und ankreuzbar sind
+            pass
+    else:
+        form = CreateGroupForm()
+
+    return render(request, 'creategroup.html', {'form': form,
                                               'errorMessage': errorMessage})
