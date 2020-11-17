@@ -32,7 +32,7 @@ class Friendlist(models.Model):
     creator = models.ForeignKey(User, on_delete=models.CASCADE)
     friend = models.ForeignKey(User, on_delete=models.CASCADE, related_name='+')
 
-    # for admin: return back a usefull name
+    # for admin: return back a useful name
     def __str__(self):
         return self.creator.__str__() + ' with Friend '+self.friend.__str__()
 

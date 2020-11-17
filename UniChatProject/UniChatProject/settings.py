@@ -49,6 +49,10 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    # Own
+    'UniChatApp.threadlocals.ThreadLocalsMiddleware',
+
 ]
 
 ROOT_URLCONF = 'UniChatProject.urls'

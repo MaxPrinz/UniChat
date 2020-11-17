@@ -135,10 +135,16 @@ def creategroup(request):
     if request.method == "POST":
         form = CreateGroupForm(request.POST)
         if form.is_valid():
-            # auslesesn welche Freunde angekreuzt wurden.
+
             # Gruppe erschaffen und in DB abspeichern.
             # --> Form noch anpassen, dass alle Freunde geladen und ankreuzbar sind
-            pass
+            chatName = form.cleaned_data['chatName']
+            # auslesesn welche Freunde angekreuzt wurden.
+            addedFriends = form.cleaned_data['addedFriends']
+            for i in addedFriends:
+                # Für jeden Freund Verbindung zu GroupChat erstellen
+                pass
+
     else:
         form = CreateGroupForm()
 
