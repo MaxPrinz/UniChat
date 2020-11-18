@@ -138,7 +138,7 @@ def addfriend(request):
 #
 #             # Gruppe erschaffen und in DB abspeichern.
 #             # --> Form noch anpassen, dass alle Freunde geladen und ankreuzbar sind
-#             chatName = form.cleaned_data['chatName']
+#             title = form.cleaned_data['groupTitle']
 #             # auslesesn welche Freunde angekreuzt wurden.
 #             addedFriends = form.cleaned_data['addedFriends']
 #             for i in addedFriends:

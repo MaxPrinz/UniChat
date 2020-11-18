@@ -16,5 +16,5 @@ class AddFriendForm(forms.Form):
     friendEmail = forms.EmailField(label='Friend eMail', required=False)
 
 # class CreateGroupForm(forms.Form):
-#     chatName = forms.CharField(label='Friend Username', max_length=150, required=False)
+#     groupTitle = forms.CharField(label='Friend Username', max_length=150, required=False)
 #     addedFriends = forms.ModelMultipleChoiceField(queryset=Friendlist.objects.filter(creator=user))
