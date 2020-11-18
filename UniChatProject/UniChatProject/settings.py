@@ -51,7 +51,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
     # Own
-    'UniChatApp.threadlocals.ThreadLocalsMiddleware',
+    #'UniChatApp.threadlocals.ThreadLocalsMiddleware',
 
 ]
 

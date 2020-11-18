@@ -15,7 +15,7 @@ urlpatterns = [
     path('addfriend', views.addfriend, name='addfriend'),
 
     # create a new group
-    path('creategroup', views.creategroup, name='creategroup'),
+#    path('creategroup', views.creategroup, name='creategroup'),
 
     # for accessing admin-functionality
     path('admin/', admin.site.urls),

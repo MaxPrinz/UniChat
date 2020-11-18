@@ -3,9 +3,9 @@ from django.shortcuts import render, redirect
 
 
 # Create your views here.
-from .forms import SettingsForm, AddFriendForm, CreateGroupForm
+from .forms import SettingsForm, AddFriendForm#, CreateGroupForm
 from .functionsUser import getFriendOfUser, getUserOrNone
-from .models import Settings, Friendlist
+from .models import Settings, Friendlist#, Groupchat
 
 
 def index(request):
@@ -126,27 +126,28 @@ def addfriend(request):
     return render(request, 'addfriend.html', {'form': form,
                                               'errorMessage': errorMessage})
 
-def creategroup(request):
-    # make sure the current user is authenticated. If not go to login-screen
-    if not request.user.is_authenticated:
-        return redirect("login")
-
-    errorMessage=None
-    if request.method == "POST":
-        form = CreateGroupForm(request.POST)
-        if form.is_valid():
-
-            # Gruppe erschaffen und in DB abspeichern.
-            # --> Form noch anpassen, dass alle Freunde geladen und ankreuzbar sind
-            chatName = form.cleaned_data['chatName']
-            # auslesesn welche Freunde angekreuzt wurden.
-            addedFriends = form.cleaned_data['addedFriends']
-            for i in addedFriends:
-                # Für jeden Freund Verbindung zu GroupChat erstellen
-                pass
-
-    else:
-        form = CreateGroupForm()
-
-    return render(request, 'creategroup.html', {'form': form,
-                                              'errorMessage': errorMessage})
+# def creategroup(request):
+#     # make sure the current user is authenticated. If not go to login-screen
+#     if not request.user.is_authenticated:
+#         return redirect("login")
+#
+#     errorMessage=None
+#     if request.method == "POST":
+#         form = CreateGroupForm(request.POST)
+#         if form.is_valid():
+#
+#             # Gruppe erschaffen und in DB abspeichern.
+#             # --> Form noch anpassen, dass alle Freunde geladen und ankreuzbar sind
+#             chatName = form.cleaned_data['chatName']
+#             # auslesesn welche Freunde angekreuzt wurden.
+#             addedFriends = form.cleaned_data['addedFriends']
+#             for i in addedFriends:
+#                 # Für jeden Freund Verbindung zu GroupChat erstellen
+#                 member =addedFriends[i]
+#                 Groupchat.objects.create(creator=request.user, member=member)
+#
+#     else:
+#         form = CreateGroupForm()
+#
+#     return render(request, 'creategroup.html', {'form': form,
+#                                               'errorMessage': errorMessage})
