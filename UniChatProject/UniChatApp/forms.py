@@ -1,6 +1,5 @@
 from django import forms
-#from .threadlocals import get_current_user
-from .models import Settings, Friendlist
+from .models import Settings, Friendlist, Groupchat
 
 
 class SettingsForm(forms.ModelForm):
@@ -15,6 +14,7 @@ class AddFriendForm(forms.Form):
     friendName = forms.CharField(label='Friend Username', max_length=150, required=False)
     friendEmail = forms.EmailField(label='Friend eMail', required=False)
 
-# class CreateGroupForm(forms.Form):
-#     groupTitle = forms.CharField(label='Friend Username', max_length=150, required=False)
-#     addedFriends = forms.ModelMultipleChoiceField(queryset=Friendlist.objects.filter(creator=user))
+class CreateGroupForm(forms.ModelForm):
+    class Meta:
+         model = Groupchat
+         fields = ('title', 'member')

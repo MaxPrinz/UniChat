@@ -1,15 +1,15 @@
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 
-
 # Create your views here.
-from .forms import SettingsForm, AddFriendForm#, CreateGroupForm
+from .forms import SettingsForm, AddFriendForm, CreateGroupForm
 from .functionsUser import getFriendOfUser, getUserOrNone
-from .models import Settings, Friendlist#, Groupchat
+from .models import Settings, Friendlist, Groupchat
 
 
 def index(request):
     return showChat(request)
+
 
 def settings(request):
     # make sure the current user is authenticated. If not go to login-screen
@@ -37,17 +37,15 @@ def settings(request):
     return render(request, 'settings.html', {'form': form})
 
 
-
-
-
 def friendchat(request, friend_id):
     return showChat(request, friendChatId=friend_id)
+
 
 def groupchat(request, group_id):
     return showChat(request, groupChatId=group_id)
 
 
-def showChat(request, friendChatId = None, groupChatId = None):
+def showChat(request, friendChatId=None, groupChatId=None):
     if not request.user.is_authenticated:
         return redirect("login")
 
@@ -82,28 +80,28 @@ def addfriend(request):
     if not request.user.is_authenticated:
         return redirect("login")
 
-    errorMessage=None
+    errorMessage = None
     if request.method == "POST":
         form = AddFriendForm(request.POST)
         if form.is_valid():
-            friend=None
-            friendId=form.cleaned_data['friendId']
-            friendName=form.cleaned_data['friendName']
-            friendEmail=form.cleaned_data['friendEmail']
+            friend = None
+            friendId = form.cleaned_data['friendId']
+            friendName = form.cleaned_data['friendName']
+            friendEmail = form.cleaned_data['friendEmail']
 
             # in case none of the following ifs matches, set friend id as default error message
             errorMessage = "Wrong friend id"
             if friendId is not None:
                 # only friendId is evaluated, clean others if exist and use default error message
-                friendName=""
-                friendEmail=""
+                friendName = ""
+                friendEmail = ""
 
                 # load possible friend if exist
                 friend = getUserOrNone(user_id=friendId)
 
             if friendName != "":
                 # only friendName is evaluated; friendId must be already None, clean other and set possible error message
-                friendEmail=""
+                friendEmail = ""
                 errorMessage = "Wrong friend Name"
 
                 # load possible friend if exist
@@ -126,28 +124,26 @@ def addfriend(request):
     return render(request, 'addfriend.html', {'form': form,
                                               'errorMessage': errorMessage})
 
-# def creategroup(request):
-#     # make sure the current user is authenticated. If not go to login-screen
-#     if not request.user.is_authenticated:
-#         return redirect("login")
-#
-#     errorMessage=None
-#     if request.method == "POST":
-#         form = CreateGroupForm(request.POST)
-#         if form.is_valid():
-#
-#             # Gruppe erschaffen und in DB abspeichern.
-#             # --> Form noch anpassen, dass alle Freunde geladen und ankreuzbar sind
-#             title = form.cleaned_data['groupTitle']
-#             # auslesesn welche Freunde angekreuzt wurden.
-#             addedFriends = form.cleaned_data['addedFriends']
-#             for i in addedFriends:
-#                 # Für jeden Freund Verbindung zu GroupChat erstellen
-#                 member =addedFriends[i]
-#                 Groupchat.objects.create(creator=request.user, member=member)
-#
-#     else:
-#         form = CreateGroupForm()
-#
-#     return render(request, 'creategroup.html', {'form': form,
-#                                               'errorMessage': errorMessage})
+
+def creategroup(request):
+    # make sure the current user is authenticated. If not go to login-screen
+    if not request.user.is_authenticated:
+        return redirect("login")
+
+    friends = Friendlist.objects.filter(creator=request.user)
+
+
+    # normal settings-form-prcessing
+    if request.method == "POST":
+
+        form = CreateGroupForm(request.POST, instance=Groupchat.objects.create(creator=request.user))
+        print(form.is_valid())
+        print(form.data)
+        if form.is_valid():
+            group = form.save()
+            return redirect('index')
+    else:
+        form = CreateGroupForm()
+
+    return render(request, 'creategroup.html', {'form': form,
+                                                'friends': friends})

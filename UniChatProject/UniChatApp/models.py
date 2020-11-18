@@ -10,7 +10,7 @@ class Language(models.Model):
 
     # for admin: return back a useful name
     def __str__(self):
-        return self.name + ' (' + self.iso + ')'
+        return self.name.__str__() + ' (' + self.iso + ')'
 
 
 # because we use the built-in django user object,
@@ -36,3 +36,13 @@ class Friendlist(models.Model):
     def __str__(self):
         return self.creator.__str__() + ' with Friend '+self.friend.__str__()
 
+
+# Group with creator and members
+class Groupchat(models.Model):
+    creator = models.ForeignKey(User, on_delete=models.CASCADE)
+    member = models.ManyToManyField(User, related_name='+')
+    title = models.CharField(max_length=50)
+
+    # for admin: return back a useful name
+    def __str__(self):
+        return 'Groupchat of ' +  self.creator.__str__() + ' with title ' + self.title.__str__()
