@@ -36,12 +36,3 @@ class Friendlist(models.Model):
     def __str__(self):
         return self.creator.__str__() + ' with Friend '+self.friend.__str__()
 
-# # List with
-# class Groupchat(models.Model):
-#     creator = models.ForeignKey(User, on_delete=models.CASCADE)
-#     member = models.ForeignKey(User, on_delete=models.CASCADE, related_name='+')
-#     title = models.CharField(max_length=50)
-#
-#     # for admin: return back a useful name
-#     def __str__(self):
-#         return self.creator.__str__() + ' with member ' + self.member.__str__() + ' and title ' + self.title.__str__()
