@@ -29,10 +29,28 @@ class Settings(models.Model):
 
 # List of friends from creator-user
 class Friendlist(models.Model):
-    creator = models.ForeignKey(User, on_delete=models.CASCADE)
+    creator = models.ForeignKey(User, on_delete=models.CASCADE, primary_key=True)
     friend = models.ForeignKey(User, on_delete=models.CASCADE, related_name='+')
 
     # for admin: return back a useful name
     def __str__(self):
         return self.creator.__str__() + ' with Friend '+self.friend.__str__()
+
+# Groupchat created by one user
+class Groupchat(models.Model):
+
+    creator = models.ForeignKey(User, on_delete=models.CASCADE)
+    title = models.CharField(max_length=25)
+    #TODO: insert members; need ID as primary key since we need one but creator doesnt work since its a one to many connection?
+
+# Individual chat message
+class ChatMessage(models.Model):
+    creator = models.ForeignKey(User, on_delete=models.CASCADE)
+    linkedFriendList = models.ForeignKey(Friendlist, on_delete=models.CASCADE)
+    linkedGroupchat = models.ForeignKey(Groupchat, on_delete=models.CASCADE)
+    createdAt = models.DateTimeField()
+    message = models.CharField(max_length=1000)
+    language = models.ForeignKey(Language, on_delete=models.CASCADE)
+    
+
 
