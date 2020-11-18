@@ -42,7 +42,6 @@ class Groupchat(models.Model):
     creator = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=25)
     member = models.ManyToManyField(User, related_name='+')
-    #TODO: insert members; need ID as primary key since we need one but creator doesnt work since its a one to many connection?
 
 # Individual chat message
 class ChatMessage(models.Model):
