@@ -22,6 +22,15 @@
 
   </ul>
 
+  Messages: <br />
+  <ul>
+  {% if chatMessages %}
+    {% for message in chatMessages %}
+      <li>{{ message.creator.username }}: {{ message.message }}</li>
+    {% endfor %}
+  {% endif %}
+  </ul>
+
   <p><a href="{% url 'addfriend' %}">Add friend</a></p>
   <p><a href="{% url 'creategroup' %}">Create Group</a> </p>
   <p><a href="{% url 'logout' %}">Log Out</a></p>

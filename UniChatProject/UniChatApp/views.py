@@ -3,8 +3,8 @@ from django.shortcuts import render, redirect
 
 # Create your views here.
 from .forms import SettingsForm, AddFriendForm, CreateGroupForm
-from .functionsUser import getFriendOfUser, getUserOrNone
-from .models import Settings, Friendlist, Groupchat
+from .functionsUser import getFriendOfUser, getUserOrNone, getFriendlistOrNone
+from .models import Settings, Friendlist, Groupchat, ChatMessage
 
 
 def index(request):
@@ -54,6 +54,7 @@ def showChat(request, friendChatId=None, groupChatId=None):
     chatId = -1
     chattype = "global"
     friend = None
+    chatMessages = None
 
     # load - if friendChatId is given - the friend
     if friendChatId:
@@ -64,13 +65,27 @@ def showChat(request, friendChatId=None, groupChatId=None):
         chatname = "Friend " + friend.username
         chatId = friend.id
         chattype = "friend"
+        friendList=getFriendlistOrNone(creator=request.user, friend=friend)
+        if friendList:
+            chatMessages = ChatMessage.objects.filter(linkedFriendList=friendList)
+
+    # TODO: Group-Chat functionality
+    # TODO: global-chat functionality
+
 
     # load some global lists and show chat
+    # TODO: Show also friends, where user is friend and not creator
     friendlist = Friendlist.objects.filter(creator=request.user)
+
+    # TODO: Show Group-Chats user has created or is a member
+
+    # TODO: Translate text to the desired language
+
     return render(request, "index.html", {'friendlist': friendlist,
                                           'chatname': chatname,
                                           'chatId': chatId,
                                           'chattype': chattype,
+                                          'chatMessages': chatMessages
                                           })
 
 

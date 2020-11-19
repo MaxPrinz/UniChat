@@ -28,10 +28,20 @@ def getFriendOfUser(user, friend_id):
         return None
 
     # check if friend is really a friend
-    try:
-        friendlistEntry = Friendlist.objects.get(creator=user, friend=friend)
-    except Friendlist.DoesNotExist:
+    friendlistEntry = getFriendlistOrNone(creator=user, friend=friend)
+    if not friendlistEntry:
         return None
 
     # all good, the two are friends, return the friend
     return friend
+
+
+# gets the given friendlist-entry or none, if not found
+def getFriendlistOrNone(creator, friend):
+    try:
+        friendlistEntry = Friendlist.objects.get(creator=creator, friend=friend)
+    except Friendlist.DoesNotExist:
+        return None
+
+    return friendlistEntry
+

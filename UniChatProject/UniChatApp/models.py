@@ -38,19 +38,21 @@ class Friendlist(models.Model):
 
 # Groupchat created by one user
 class Groupchat(models.Model):
-
     creator = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=25)
     member = models.ManyToManyField(User, related_name='+')
 
+    # TODO: Add useful name for admin
+
 # Individual chat message
 class ChatMessage(models.Model):
     creator = models.ForeignKey(User, on_delete=models.CASCADE)
-    linkedFriendList = models.ForeignKey(Friendlist, on_delete=models.CASCADE)
-    linkedGroupchat = models.ForeignKey(Groupchat, on_delete=models.CASCADE)
+    linkedFriendList = models.ForeignKey(Friendlist, on_delete=models.CASCADE, blank=True, null=True)
+    linkedGroupchat = models.ForeignKey(Groupchat, on_delete=models.CASCADE, blank=True, null=True)
     createdAt = models.DateTimeField()
     message = models.CharField(max_length=1000)
     language = models.ForeignKey(Language, on_delete=models.CASCADE)
 
+    # TODO: Add useful name for admin
 
 
