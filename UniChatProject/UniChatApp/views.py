@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
-
+from django.db.models import Q
 # Create your views here.
 from .forms import SettingsForm, AddFriendForm, CreateGroupForm
 from .functionsUser import getFriendOfUser, getUserOrNone, getFriendlistOrNone
@@ -78,10 +78,12 @@ def showChat(request, friendChatId=None, groupChatId=None):
     friendlist = Friendlist.objects.filter(creator=request.user)
 
     # TODO: Show Group-Chats user has created or is a member
+    groupchatlist = Groupchat.objects.filter(Q(creator=request.user) | Q(member=request.user))
 
     # TODO: Translate text to the desired language
 
     return render(request, "index.html", {'friendlist': friendlist,
+                                          'groupchatlist': groupchatlist,
                                           'chatname': chatname,
                                           'chatId': chatId,
                                           'chattype': chattype,
@@ -148,12 +150,11 @@ def creategroup(request):
     friends = Friendlist.objects.filter(creator=request.user)
 
 
-    # normal settings-form-prcessing
+    # create chat in database
     if request.method == "POST":
 
         form = CreateGroupForm(request.POST, instance=Groupchat.objects.create(creator=request.user))
-        print(form.is_valid())
-        print(form.data)
+
         if form.is_valid():
             group = form.save()
             return redirect('index')
