@@ -76,7 +76,17 @@ def showChat(request, friendChatId=None, groupChatId=None):
 
     # load some global lists and show chat
     # TODO: Show also friends, where user is friend and not creator
-    friendlist = Friendlist.objects.filter(creator=request.user)
+    friendlistQuery = Friendlist.objects.filter(Q(creator=request.user) | Q(friend=request.user))
+    friendlist = []
+
+    # create displayName-field with a useful name for template
+    for oneEntry in friendlistQuery:
+        if oneEntry.creator == request.user:
+            oneEntry.displayName = oneEntry.friend.username
+        else:
+            oneEntry.displayName = oneEntry.creator.username
+        friendlist.append(oneEntry)
+
 
     # TODO: Show Group-Chats user has created or is a member
     groupchatlist = Groupchat.objects.filter(Q(creator=request.user) | Q(member=request.user))
