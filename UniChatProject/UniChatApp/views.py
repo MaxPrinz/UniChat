@@ -83,8 +83,10 @@ def showChat(request, friendChatId=None, groupChatId=None):
     for oneEntry in friendlistQuery:
         if oneEntry.creator == request.user:
             oneEntry.displayName = oneEntry.friend.username
+            oneEntry.idForLink = oneEntry.friend.id
         else:
             oneEntry.displayName = oneEntry.creator.username
+            oneEntry.idForLink = oneEntry.creator.id
         friendlist.append(oneEntry)
 
 

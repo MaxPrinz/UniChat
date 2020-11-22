@@ -30,7 +30,10 @@ def getFriendOfUser(user, friend_id):
     # check if friend is really a friend
     friendlistEntry = getFriendlistOrNone(creator=user, friend=friend)
     if not friendlistEntry:
-        return None
+        # try to other way
+        friendlistEntry = getFriendlistOrNone(creator=friend, friend=user)
+        if not friendlistEntry:
+            return None
 
     # all good, the two are friends, return the friend
     return friend
