@@ -67,7 +67,7 @@ def showChat(request, friendChatId=None, groupChatId=None):
         chatname = "Friend " + friend.username
         chatId = friend.id
         chattype = "friend"
-        friendList=getFriendlistOrNone(creator=request.user, friend=friend)
+        friendList = getFriendlistOrNone(creator=request.user, friend=friend)
         if friendList:
             chatMessages = ChatMessage.objects.filter(linkedFriendList=friendList)
 
@@ -91,12 +91,27 @@ def showChat(request, friendChatId=None, groupChatId=None):
         friendlist.append(oneEntry)
 
 
-    # TODO: Show Group-Chats user has created or is a member --> Query issue: shows the chat as often as members in it
+    # TODO: Show Group-Chats user has created or is a member --> Query issue: shows the chat as often as members in it -->fix
     groupchatlist = Groupchat.objects.filter(member=request.user) | Groupchat.objects.filter(creator=request.user)
 
     # TODO: Translate text to the desired language (follow this given expamle)
-    testtext=simpleGoogleTranslate(" Hallo du da   ", "de", "en")
-    print(testtext)
+
+    #load target language
+    # targetLanguage = request.user.settings.language.iso
+    # chatMessages = []
+    # chatMessagesQuery = ChatMessage.objects.filter(linkedFriendList=friendlist)
+    # for oneEntry in chatMessagesQuery:
+    #     if oneEntry.creator == request.user:
+    #         oneEntry.displayName = oneEntry.friend.username
+    #         oneEntry.idForLink = oneEntry.friend.id
+    #     else:
+    #         oneEntry.displayName = oneEntry.creator.username
+    #         oneEntry.idForLink = oneEntry.creator.id
+    #     oneEntry.message = simpleGoogleTranslate(f"{oneEntry.message}", oneEntry.language.iso, targetLanguage)
+    #     chatMessages.append(oneEntry)
+    #
+    # testtext=simpleGoogleTranslate(" Hallo du da   ", "de", "en")
+    # print(testtext)
 
     return render(request, "index.html", {'friendlist': friendlist,
                                           'groupchatlist': groupchatlist,
