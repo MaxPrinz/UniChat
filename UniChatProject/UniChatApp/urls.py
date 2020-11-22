@@ -27,4 +27,7 @@ urlpatterns = [
     # for login/logout
     # see https://learndjango.com/tutorials/django-login-and-logout-tutorial
     path('accounts/', include('django.contrib.auth.urls')),
+
+    #test
+    path('test', views.test)
 ]

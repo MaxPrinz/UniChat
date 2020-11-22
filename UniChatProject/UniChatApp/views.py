@@ -163,3 +163,5 @@ def creategroup(request):
 
     return render(request, 'creategroup.html', {'form': form,
                                                 'friends': friends})
+def test(request):
+    return render(request, 'messenger_template.html')
