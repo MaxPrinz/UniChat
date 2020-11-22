@@ -1,16 +1,18 @@
 from django.contrib.auth.models import User
 from django.db import models
+from .functionsImage import profilePicture_path, OverwriteStorage
 
 
 # Available languages for Translation
-# Fill it with admin
+# fill it with admin-function
 class Language(models.Model):
     iso = models.CharField(max_length=2, primary_key=True)
     name = models.CharField(max_length=10)
 
     # for admin: return back a useful name
     def __str__(self):
-        return self.name.__str__() + ' (' + self.iso + ')'
+        return str(self.name) + ' (' + self.iso + ')'
+
 
 
 # because we use the built-in django user object,
@@ -21,10 +23,11 @@ class Settings(models.Model):
     funMode = models.BooleanField(default=False)
     hideLastLogin = models.BooleanField(default=False)
     language = models.ForeignKey(Language, on_delete=models.CASCADE, null=True)
+    image = models.ImageField(upload_to=profilePicture_path, storage=OverwriteStorage())
 
     # for admin: return back the name of the linked user
     def __str__(self):
-        return self.user.__str__()
+        return str(self.user)
 
 
 # List of friends from creator-user
@@ -34,7 +37,7 @@ class Friendlist(models.Model):
 
     # for admin: return back a useful name
     def __str__(self):
-        return self.creator.__str__() + ' with Friend '+self.friend.__str__()
+        return str(self.creator) + ' with Friend ' + str(self.friend)
 
 # Groupchat created by one user
 class Groupchat(models.Model):
@@ -44,7 +47,7 @@ class Groupchat(models.Model):
 
     # for admin: return back a useful name
     def __str__(self):
-        return self.creator.__str__() + ": "+self.title
+        return str(self.creator) + ": " + self.title
 
 # Individual chat message
 class ChatMessage(models.Model):

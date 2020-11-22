@@ -127,7 +127,18 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static")
 LOGIN_REDIRECT_URL = '/uniChat'
 LOGOUT_REDIRECT_URL = '/uniChat'
 
+# Media-Url and Path
+# see https://djangocentral.com/uploading-images-with-django/
+# Base url to serve media files
+MEDIA_URL = '/uniChat/media/'
+
+# Path where media is stored
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+
+
+
 # import local settings, that are not synced via git
 from .settings_local import *
+
 
 

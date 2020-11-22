@@ -1,18 +1,20 @@
-from django.contrib.auth.models import User
+from django.conf import settings
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.db.models import Q
-# Create your views here.
 from .forms import SettingsForm, AddFriendForm, CreateGroupForm
 from .functionsUser import getFriendOfUser, getUserOrNone, getFriendlistOrNone
 from .models import Settings, Friendlist, Groupchat, ChatMessage
 from .simpleGoogleTranslate import simpleGoogleTranslate
+import os
 
+# Create your views here.
 
 def index(request):
     return showChat(request)
 
 
-def settings(request):
+def settingsView(request):
     # make sure the current user is authenticated. If not go to login-screen
     if not request.user.is_authenticated:
         return redirect("login")
@@ -27,7 +29,7 @@ def settings(request):
 
     # normal settings-form-prcessing
     if request.method == "POST":
-        form = SettingsForm(request.POST, instance=settings)
+        form = SettingsForm(request.POST, request.FILES, instance=settings)
         if form.is_valid():
             settings = form.save(commit=False)
             settings.save()
@@ -180,3 +182,10 @@ def creategroup(request):
                                                 'friends': friends})
 def test(request):
     return render(request, 'messenger_template.html')
+
+
+def showProfilePicture(request, user_id):
+    file = open(os.path.join(settings.MEDIA_ROOT, "profile", str(user_id)), "rb")
+    data = bytes(file.read())
+    response = HttpResponse(data, content_type='image/jpeg')
+    return response

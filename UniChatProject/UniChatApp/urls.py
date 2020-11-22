@@ -5,7 +5,7 @@ from . import views
 
 urlpatterns = [
     path('', views.index, name='index'),
-    path('settings/', views.settings, name='settings'),
+    path('settings/', views.settingsView, name='settings'),
 
     # different chat-views
     path('userchat/<int:friend_id>', views.friendchat, name='friendchat'),
@@ -27,6 +27,10 @@ urlpatterns = [
     # for login/logout
     # see https://learndjango.com/tutorials/django-login-and-logout-tutorial
     path('accounts/', include('django.contrib.auth.urls')),
+
+    # to display user-image
+    # see https://djangocentral.com/uploading-images-with-django/
+    path('media/profile/<int:user_id>', views.showProfilePicture, name='profilePicture'),
 
     #test
     path('test', views.test)
