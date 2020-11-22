@@ -3,6 +3,7 @@
     <h2>User Settings</h2>
     <p>Your ID: {{ user.id }}</p>
     <p>Your name: {{ user.first_name }} {{ user.last_name}} </p>
+    <p>Your Profile Picture: <img src="{% url 'profilePicture' user.id %}" /></p>
     <form method="POST" class="post-form" enctype="multipart/form-data">{% csrf_token %}
         {{ form.as_p }}
         <button type="submit" class="save btn btn-default">Save</button>
