@@ -43,7 +43,6 @@ def settingsView(request):
 def friendchat(request, friend_id):
     return showChat(request, friendChatId=friend_id)
 
-
 def groupchat(request, group_id):
     return showChat(request, groupChatId=group_id)
 
@@ -92,8 +91,8 @@ def showChat(request, friendChatId=None, groupChatId=None):
         friendlist.append(oneEntry)
 
 
-    # TODO: Show Group-Chats user has created or is a member
-    groupchatlist = Groupchat.objects.filter(Q(creator=request.user) | Q(member=request.user))
+    # TODO: Show Group-Chats user has created or is a member --> Query issue: shows the chat as often as members in it
+    groupchatlist = Groupchat.objects.filter(member=request.user) | Groupchat.objects.filter(creator=request.user)
 
     # TODO: Translate text to the desired language (follow this given expamle)
     testtext=simpleGoogleTranslate(" Hallo du da   ", "de", "en")
