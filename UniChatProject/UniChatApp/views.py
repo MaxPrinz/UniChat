@@ -5,6 +5,7 @@ from django.db.models import Q
 from .forms import SettingsForm, AddFriendForm, CreateGroupForm
 from .functionsUser import getFriendOfUser, getUserOrNone, getFriendlistOrNone
 from .models import Settings, Friendlist, Groupchat, ChatMessage
+from .simpleGoogleTranslate import simpleGoogleTranslate
 
 
 def index(request):
@@ -80,7 +81,9 @@ def showChat(request, friendChatId=None, groupChatId=None):
     # TODO: Show Group-Chats user has created or is a member
     groupchatlist = Groupchat.objects.filter(Q(creator=request.user) | Q(member=request.user))
 
-    # TODO: Translate text to the desired language
+    # TODO: Translate text to the desired language (follow this given expamle)
+    testtext=simpleGoogleTranslate(" Hallo du da   ", "de", "en")
+    print(testtext)
 
     return render(request, "index.html", {'friendlist': friendlist,
                                           'groupchatlist': groupchatlist,

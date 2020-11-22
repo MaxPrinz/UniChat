@@ -6,3 +6,10 @@
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = "mailServerOfMyISP"
 EMAIL_TIMEOUT = 60
+
+
+# GOOGLE API KEY
+GOOGLEAPIKEY=123
+
+# Languages for fun-mode
+FUNMODELANGUAGES = ['en', 'fr', 'cn', 'ru', 'es']
