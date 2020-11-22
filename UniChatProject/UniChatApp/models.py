@@ -42,7 +42,9 @@ class Groupchat(models.Model):
     title = models.CharField(max_length=25)
     member = models.ManyToManyField(User, related_name='+')
 
-    # TODO: Add useful name for admin
+    # for admin: return back a useful name
+    def __str__(self):
+        return self.creator.__str__() + ": "+self.title
 
 # Individual chat message
 class ChatMessage(models.Model):
