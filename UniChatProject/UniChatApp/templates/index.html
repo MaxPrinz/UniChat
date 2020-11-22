@@ -1,38 +1,107 @@
 <!-- templates/index.html -->
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}Home{% endblock %}
 
 {% block content %}
+<html>
+<head>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" type="text/css"
+          rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
 
-  Hi {{ user.username }}!
+<div class="container">
+    <h3 class=" text-center">Hi {{ user.username }}!</h3>
+    <div class="messaging">
+        <div class="inbox_msg">
+            <div class="inbox_people">
+                <div class="headind_srch">
+                    <div class="recent_heading">
+                        <h4>Chat</h4>
+                    </div>
+                </div>
+                <div class="inbox_chat">
+                    <div class="chat_list active_chat">
+                        <div class="chat_people">
+                            <div class="chat_img"><img src="https://ptetutorials.com/images/user-profile.png"
+                                                       alt="sunil"></div>
+                            <div class="chat_ib">
+                                <h5>{{ chatname }}</h5>
+                            </div>
+                        </div>
+                    </div>
 
-  <br />
 
-  Chat: {{ chatname }}
+                    <br/>
 
-  <ul>
-        <li><a href="{% url 'index' %}">Global</a></li>
 
-  {% if friendlist %}
-    {% for entry in friendlist %}
-        <li><a href="{% url 'friendchat' entry.friend.id %}">{{ entry.friend.username }}</a></li>
-    {% endfor %}
-  {% endif %}
+                    <ul> Friends
 
-  </ul>
+                        {% if friendlist %}
+                        {% for entry in friendlist %}
+                        <div class="chat_list">
+                            <div class="chat_people">
+                                <div class="chat_img"><img src="https://ptetutorials.com/images/user-profile.png"
+                                                           alt="sunil"></div>
+                                <div class="chat_ib">
+                                    <h5><a href="{% url 'friendchat' entry.friend.id %}">{{ entry.friend.username }}</a>
+                                    </h5>
 
-  Messages: <br />
-  <ul>
-  {% if chatMessages %}
-    {% for message in chatMessages %}
-      <li>{{ message.creator.username }}: {{ message.message }}</li>
-    {% endfor %}
-  {% endif %}
-  </ul>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                        {% endif %}
 
-  <p><a href="{% url 'addfriend' %}">Add friend</a></p>
-  <p><a href="{% url 'creategroup' %}">Create Group</a> </p>
-  <p><a href="{% url 'logout' %}">Log Out</a></p>
-  <p><a href="{% url 'settings' %}">Settings</a></p>
-{% endblock %}
+                    </ul>
+                    <ul>Groups
+                        <!-- TODO: Insert here the code like for the friedns to show all group chats -->
+                    </ul>
+                </div>
+            </div>
+            <div class="mesgs">
+                <div class="msg_history">
+
+
+                    <ul>
+                        {% if chatMessages %}
+                        {% for message in chatMessages %}
+                        {% if message.creator.username == user.username %}
+                        <div class="outgoing_msg">
+                            <div class="sent_msg">
+                                <p>{{ message.message }}</p>
+                                <span class="time_date"> {{ message.createdAt }}</span>
+                            </div>
+                        </div>
+                        <br/>
+                        {% endif %}
+                        {% if message.creator.username != user.username %}
+                        <div class="incoming_msg">
+                            <div class="incoming_msg_img"><img
+                                    src="https://ptetutorials.com/images/user-profile.png" alt="sunil"></div>
+                            <div class="received_msg">
+                                <div class="received_withd_msg">
+                                    <p>{{ message.message }}</p>
+                                    <span class="time_date"> {{ message.createdAt }}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <br/>
+                        {% endif %}
+                        {% endfor %}
+                        {% endif %}
+                    </ul>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    {% endblock %}
