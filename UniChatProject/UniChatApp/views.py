@@ -56,6 +56,7 @@ def showChat(request, friendChatId=None, groupChatId=None):
     chatId = -1
     chattype = "global"
     friend = None
+    group = None
     chatMessages = []
 
     # load - if friendChatId is given - the friend
@@ -71,12 +72,17 @@ def showChat(request, friendChatId=None, groupChatId=None):
         if friendList:
             chatMessages = ChatMessage.objects.filter(linkedFriendList=friendList)
 
-    # TODO: Group-Chat functionality
+    if groupChatId:
+        group = Groupchat(id=groupChatId)
+
+    if group: #TODO: Does not display group title --> fix
+        chatname = "Group" + group.title
+        chattype = "group"
+        chatMessages = ChatMessage.objects.filter(linkedGroupchat=groupChatId)
     # TODO: global-chat functionality
 
 
     # load some global lists and show chat
-    # TODO: Show also friends, where user is friend and not creator
     friendlistQuery = Friendlist.objects.filter(Q(creator=request.user) | Q(friend=request.user))
     friendlist = []
 
@@ -94,9 +100,7 @@ def showChat(request, friendChatId=None, groupChatId=None):
     # TODO: Show Group-Chats user has created or is a member --> Query issue: shows the chat as often as members in it -->fix
     groupchatlist = Groupchat.objects.filter(member=request.user) | Groupchat.objects.filter(creator=request.user)
 
-    # TODO: Translate text to the desired language (follow this given expamle)
-
-
+    # Translation of messages into the language defined in the settings
     #load target language
     targetLanguage = request.user.settings.language.iso
     messagesTranlation = []
