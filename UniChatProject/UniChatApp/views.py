@@ -73,10 +73,10 @@ def showChat(request, friendChatId=None, groupChatId=None):
             chatMessages = ChatMessage.objects.filter(linkedFriendList=friendList)
 
     if groupChatId:
-        group = Groupchat(id=groupChatId)
+        group = Groupchat.objects.get(id=groupChatId)
 
-    if group: #TODO: Does not display group title --> fix
-        chatname = "Group" + group.title
+    if group:
+        chatname = group.title
         chattype = "group"
         chatMessages = ChatMessage.objects.filter(linkedGroupchat=groupChatId)
     # TODO: global-chat functionality
