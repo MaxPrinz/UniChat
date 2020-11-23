@@ -56,7 +56,7 @@ def showChat(request, friendChatId=None, groupChatId=None):
     chatId = -1
     chattype = "global"
     friend = None
-    chatMessages = None
+    chatMessages = []
 
     # load - if friendChatId is given - the friend
     if friendChatId:
@@ -96,20 +96,15 @@ def showChat(request, friendChatId=None, groupChatId=None):
 
     # TODO: Translate text to the desired language (follow this given expamle)
 
+
     #load target language
-    # targetLanguage = request.user.settings.language.iso
-    # chatMessages = []
-    # chatMessagesQuery = ChatMessage.objects.filter(linkedFriendList=friendlist)
-    # for oneEntry in chatMessagesQuery:
-    #     if oneEntry.creator == request.user:
-    #         oneEntry.displayName = oneEntry.friend.username
-    #         oneEntry.idForLink = oneEntry.friend.id
-    #     else:
-    #         oneEntry.displayName = oneEntry.creator.username
-    #         oneEntry.idForLink = oneEntry.creator.id
-    #     oneEntry.message = simpleGoogleTranslate(f"{oneEntry.message}", oneEntry.language.iso, targetLanguage)
-    #     chatMessages.append(oneEntry)
-    #
+    targetLanguage = request.user.settings.language.iso
+    messagesTranlation = []
+    for oneEntry in chatMessages:
+        if oneEntry.language.iso != targetLanguage:
+            translatedText = simpleGoogleTranslate(f"{oneEntry.message}", oneEntry.language.iso, targetLanguage)
+            oneEntry.message = translatedText
+
     # testtext=simpleGoogleTranslate(" Hallo du da   ", "de", "en")
     # print(testtext)
 
@@ -118,8 +113,8 @@ def showChat(request, friendChatId=None, groupChatId=None):
                                           'chatname': chatname,
                                           'chatId': chatId,
                                           'chattype': chattype,
-                                          'chatMessages': chatMessages
-                                          })
+                                          'chatMessages': chatMessages,
+                                                     })
 
 
 # show form to add a new friend, includes processing variants (id, name or eMail given correct or wrong)
