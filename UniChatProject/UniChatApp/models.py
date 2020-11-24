@@ -47,7 +47,7 @@ class Groupchat(models.Model):
 
     # for admin: return back a useful name
     def __str__(self):
-        return str(self.creator) + ": " + self.title
+        return str(self.creator) + ": " + str(self.title)
 
 # Individual chat message
 class ChatMessage(models.Model):

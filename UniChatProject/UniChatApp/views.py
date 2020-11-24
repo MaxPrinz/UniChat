@@ -97,8 +97,8 @@ def showChat(request, friendChatId=None, groupChatId=None):
         friendlist.append(oneEntry)
 
 
-    # TODO: Show Group-Chats user has created or is a member --> Query issue: shows the chat as often as members in it -->fix
-    groupchatlist = Groupchat.objects.filter(member=request.user) | Groupchat.objects.filter(creator=request.user)
+    # load all groupchats where the current user is part of (distinct because duplicates got created)
+    groupchatlist = Groupchat.objects.filter(Q(member=request.user) | Q(creator=request.user)).distinct
 
     # Translation of messages into the language defined in the settings
     #load target language
