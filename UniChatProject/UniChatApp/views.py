@@ -58,6 +58,7 @@ def showChat(request, friendChatId=None, groupChatId=None):
     friend = None
     group = None
     chatMessages = []
+    currentChatImagePath = ""
 
     # load - if friendChatId is given - the friend
     if friendChatId:
@@ -69,6 +70,7 @@ def showChat(request, friendChatId=None, groupChatId=None):
         chatId = friend.id
         chattype = "friend"
         friendList = getFriendlistOrNone(creator=request.user, friend=friend)
+        currentChatImagePath = f'media/profile/{friend.id}'
         if friendList:
             chatMessages = ChatMessage.objects.filter(linkedFriendList=friendList)
 
@@ -79,6 +81,7 @@ def showChat(request, friendChatId=None, groupChatId=None):
         chatname = group.title
         chattype = "group"
         chatMessages = ChatMessage.objects.filter(linkedGroupchat=groupChatId)
+
     # TODO: global-chat functionality
 
 
@@ -91,9 +94,12 @@ def showChat(request, friendChatId=None, groupChatId=None):
         if oneEntry.creator == request.user:
             oneEntry.displayName = oneEntry.friend.username
             oneEntry.idForLink = oneEntry.friend.id
+            oneEntry.imagePath = '/uniChat/media/profile/' + str(oneEntry.friend.id)
         else:
             oneEntry.displayName = oneEntry.creator.username
             oneEntry.idForLink = oneEntry.creator.id
+            oneEntry.imagePath = '/uniChat/media/profile/' + str(oneEntry.creator.id)
+
         friendlist.append(oneEntry)
 
 
@@ -116,6 +122,7 @@ def showChat(request, friendChatId=None, groupChatId=None):
                                           'groupchatlist': groupchatlist,
                                           'chatname': chatname,
                                           'chatId': chatId,
+                                          'currentChatImagePath': currentChatImagePath,
                                           'chattype': chattype,
                                           'chatMessages': chatMessages,
                                                      })

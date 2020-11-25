@@ -43,6 +43,7 @@ img{ max-width:100%;}
 .chat_img {
   float: left;
   width: 11%;
+  border-radius: 50%;
 }
 .chat_ib {
   float: left;
