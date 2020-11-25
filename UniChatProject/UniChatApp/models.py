@@ -58,6 +58,6 @@ class ChatMessage(models.Model):
     message = models.CharField(max_length=1000)
     language = models.ForeignKey(Language, on_delete=models.CASCADE)
 
-    # TODO: Add useful name for admin
+    # TODO: Add useful name for admin  <-- what is meant by that?
 
 
