@@ -203,7 +203,6 @@ def creategroup(request):
     if not request.user.is_authenticated:
         return redirect("login")
 
-    # TODO: Show also friends where the current user is the friend and the friend created friendlist-entry
     friends = Friendlist.objects.filter(creator=request.user)
 
 
