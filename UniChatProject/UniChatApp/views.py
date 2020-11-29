@@ -76,7 +76,7 @@ def showChat(request, friendChatId=None, groupChatId=None):
         chatId = friend.id
         chattype = "friend"
         friendList = getFriendlistOrNone(creator=request.user, friend=friend)
-        currentChatImagePath = f'media/profile/{friend.id}'
+        currentChatImagePath = '/uniChat/media/profile/' + str(friend.id)
         if friendList:
             chatMessages = ChatMessage.objects.filter(linkedFriendList=friendList)
 
@@ -87,10 +87,12 @@ def showChat(request, friendChatId=None, groupChatId=None):
         chatname = group.title
         chattype = "group"
         chatMessages = ChatMessage.objects.filter(linkedGroupchat=groupChatId)
+        currentChatImagePath = 'https://cdn3.iconfinder.com/data/icons/speech-bubble-2/100/Group-512.png'
 
     if friend == None and group == None:
         chattype = "global"
         chatMessages = ChatMessage.objects.filter(linkedGroupchat=None).filter(linkedFriendList=None)
+        currentChatImagePath = 'https://png.pngtree.com/element_our/png/20181118/beautiful-earth-elements-png_232338.jpg'
 
     # load some global lists and show chat
     friendlistQuery = Friendlist.objects.filter(Q(creator=request.user) | Q(friend=request.user))
@@ -129,6 +131,8 @@ def showChat(request, friendChatId=None, groupChatId=None):
         if oneEntry.language.iso != targetLanguage:
             translatedText = simpleGoogleTranslate(f"{oneEntry.message}", oneEntry.language.iso, targetLanguage)
             oneEntry.message = translatedText
+        if oneEntry.creator != request.user:
+            oneEntry.ProfileImagePath = '/uniChat/media/profile/' + str(oneEntry.creator.id)
 
     # testtext=simpleGoogleTranslate(" Hallo du da   ", "de", "en")
     # print(testtext)
