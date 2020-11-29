@@ -75,7 +75,7 @@ def showChat(request, friendChatId=None, groupChatId=None):
         chatname = "Friend " + friend.username
         chatId = friend.id
         chattype = "friend"
-        friendList = getFriendlistOrNone(creator=request.user, friend=friend) # TODO: Does this only load if I added the friend? If yes change so chats are visible for both parts
+        friendList = getFriendlistOrNone(creator=request.user, friend=friend)
         currentChatImagePath = f'media/profile/{friend.id}'
         if friendList:
             chatMessages = ChatMessage.objects.filter(linkedFriendList=friendList)
