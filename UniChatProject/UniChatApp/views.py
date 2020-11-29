@@ -92,7 +92,7 @@ def showChat(request, friendChatId=None, groupChatId=None):
     if friend == None and group == None:
         chattype = "global"
         chatMessages = ChatMessage.objects.filter(linkedGroupchat=None).filter(linkedFriendList=None)
-        currentChatImagePath = 'https://png.pngtree.com/element_our/png/20181118/beautiful-earth-elements-png_232338.jpg'
+        currentChatImagePath = 'https://lh3.googleusercontent.com/proxy/HUpbM9Z9oxElsb-8vIwsHmDbHVvCpcO5Pq4SfgO0bTu-MoTJhNEYC56XV_zhA5Xxb20matIF2UxJUG35tMordhcWiwVq7vRFQwKJgLZIdUM_p7q0bVZQk8V8ryQoJfN4wokZpNtWPJAKMz3xh34'
 
     # load some global lists and show chat
     friendlistQuery = Friendlist.objects.filter(Q(creator=request.user) | Q(friend=request.user))
