@@ -1,7 +1,8 @@
 # useful functions for User-Management and User-Handling
 from django.contrib.auth.models import User
 
-from .models import Friendlist
+from .models import Friendlist, Settings
+
 
 # returns a user-object or None, if user not exits
 # at least one of the parameters user_id, user_name or user_email should be given
@@ -47,4 +48,13 @@ def getFriendlistOrNone(creator, friend):
         return None
 
     return friendlistEntry
+
+
+# check if the given user has a valid settings object
+def hasUserValidSettings(user):
+    try:
+        settings = Settings.objects.get(pk=user)
+    except Settings.DoesNotExist:
+        return False
+    return True
 

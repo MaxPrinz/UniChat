@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.db.models import Q
 from .forms import SettingsForm, AddFriendForm, CreateGroupForm
-from .functionsUser import getFriendOfUser, getUserOrNone, getFriendlistOrNone
+from .functionsUser import getFriendOfUser, getUserOrNone, getFriendlistOrNone, hasUserValidSettings
 from .models import Settings, Friendlist, Groupchat, ChatMessage
 from .simpleGoogleTranslate import simpleGoogleTranslate
 import os
@@ -22,9 +22,9 @@ def settingsView(request):
     # find the settings linked with user
     # if no linked settings item exist, create an empty one
     user = request.user
-    try:
+    if hasUserValidSettings(user):
         settings = Settings.objects.get(pk=user)
-    except Settings.DoesNotExist:
+    else:
         settings = Settings.objects.create(user=user)
 
     # normal settings-form-prcessing
@@ -50,6 +50,11 @@ def groupchat(request, group_id):
 def showChat(request, friendChatId=None, groupChatId=None):
     if not request.user.is_authenticated:
         return redirect("login")
+
+    # go to settings if user has currently no settings set
+    if not hasUserValidSettings(request.user):
+        return redirect("settings")
+
 
     # set some variables
     chatname = "Global"
@@ -184,6 +189,7 @@ def creategroup(request):
     if not request.user.is_authenticated:
         return redirect("login")
 
+    # TODO: Show also friends where the current user is the friend and the friend created friendlist-entry
     friends = Friendlist.objects.filter(creator=request.user)
 
 
