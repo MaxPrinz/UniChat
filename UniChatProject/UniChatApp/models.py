@@ -11,7 +11,7 @@ class Language(models.Model):
 
     # for admin: return back a useful name
     def __str__(self):
-        return str(self.name) + ' (' + self.iso + ')'
+        return str(self.name) + ' (' + str(self.iso) + ')'
 
 
 

@@ -82,8 +82,9 @@ def showChat(request, friendChatId=None, groupChatId=None):
         chattype = "group"
         chatMessages = ChatMessage.objects.filter(linkedGroupchat=groupChatId)
 
-    # TODO: global-chat functionality
-
+    if friend == None and group == None:
+        chattype = "global"
+        chatMessages = ChatMessage.objects.filter(linkedGroupchat=None).filter(linkedFriendList=None)
 
     # load some global lists and show chat
     friendlistQuery = Friendlist.objects.filter(Q(creator=request.user) | Q(friend=request.user))
