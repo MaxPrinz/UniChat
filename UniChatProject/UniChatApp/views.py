@@ -6,7 +6,7 @@ from .forms import SettingsForm, AddFriendForm, CreateGroupForm
 from .functionsUser import getFriendOfUser, getUserOrNone, getFriendlistOrNone
 from .models import Settings, Friendlist, Groupchat, ChatMessage
 from .simpleGoogleTranslate import simpleGoogleTranslate
-import os
+import os, datetime
 
 # Create your views here.
 
@@ -59,6 +59,7 @@ def showChat(request, friendChatId=None, groupChatId=None):
     group = None
     chatMessages = []
     currentChatImagePath = ""
+    friendList = None
 
     # load - if friendChatId is given - the friend
     if friendChatId:
@@ -102,6 +103,14 @@ def showChat(request, friendChatId=None, groupChatId=None):
             oneEntry.imagePath = '/uniChat/media/profile/' + str(oneEntry.creator.id)
 
         friendlist.append(oneEntry)
+
+    if request.method == "POST":
+            creator = request.user
+            createdAt = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
+            language = request.user.settings.language
+            message = str(request.POST.get("MessageText"))
+            ChatMessage.objects.create(creator=creator, createdAt=createdAt, language=language, message=message,
+                                       linkedFriendList= friendList, linkedGroupchat= group)
 
 
     # load all groupchats where the current user is part of (distinct because duplicates got created)
