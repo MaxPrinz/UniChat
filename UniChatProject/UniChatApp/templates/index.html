@@ -40,90 +40,96 @@
                     </div>
 
 
-                <br/>
-
-
-                <ul> Friends
-
-                    {% if friendlist %}
-                    {% for entry in friendlist %}
-                    <div class="chat_list">
-                        <div class="chat_people">
-                            <div class="chat_img"><img src='{{ entry.imagePath }}'
-                                                       alt='not found'
-                                                       onerror=this.src="https://ptetutorials.com/images/user-profile.png"></div>
-                            <div class="chat_ib">
-                                <h5><a href="{% url 'friendchat' entry.idForLink %}">{{ entry.displayName }}</a>
-                                </h5>
-
-                            </div>
-                        </div>
-                    </div>
-                    {% endfor %}
-                    {% endif %}
-
-                </ul>
-                <ul>Groups
-                    {% if groupchatlist %}
-                    {% for entry in groupchatlist %}
-                    <div class="chat_list">
-                        <div class="chat_people">
-                            <div class="chat_img"><img
-                                    src="https://cdn3.iconfinder.com/data/icons/speech-bubble-2/100/Group-512.png"
-                                    alt="sunil"></div>
-                            <div class="chat_ib">
-                                <h5><a href="{% url 'groupchat' entry.id %}">{{ entry.title }}</a>
-                                </h5>
-
-                            </div>
-                        </div>
-                    </div>
-                    {% endfor %}
-                    {% endif %}
-                </ul>
-            </div>
-        </div>
-        <div class="mesgs">
-            <div class="msg_history">
-                <ul>
-                    {% if chatMessages %}
-                    {% for message in chatMessages %}
-                    {% if message.creator.username == user.username %}
-                    <div class="outgoing_msg">
-                        <div class="sent_msg">
-                            <p>{{ message.message }}</p>
-                            <span class="time_date"> {{ message.createdAt }}</span>
-                        </div>
-                    </div>
                     <br/>
-                    {% endif %}
-                    {% if message.creator.username != user.username %}
-                    <div class="incoming_msg">
-                        <div class="incoming_msg_img"><img
-                                src="https://ptetutorials.com/images/user-profile.png" alt="sunil"></div>
-                        <div class="received_msg">
-                            <div class="received_withd_msg">
+
+
+                    <ul> Friends
+
+                        {% if friendlist %}
+                        {% for entry in friendlist %}
+                        <div class="chat_list">
+                            <div class="chat_people">
+                                <div class="chat_img"><img src='{{ entry.imagePath }}'
+                                                           alt='not found'
+                                                           onerror=this.src="https://ptetutorials.com/images/user-profile.png">
+                                </div>
+                                <div class="chat_ib">
+                                    <h5><a href="{% url 'friendchat' entry.idForLink %}">{{ entry.displayName }}</a>
+                                    </h5>
+
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                        {% endif %}
+
+                    </ul>
+                    <ul>Groups
+                        {% if groupchatlist %}
+                        {% for entry in groupchatlist %}
+                        <div class="chat_list">
+                            <div class="chat_people">
+                                <div class="chat_img"><img
+                                        src="https://cdn3.iconfinder.com/data/icons/speech-bubble-2/100/Group-512.png"
+                                        alt="sunil"></div>
+                                <div class="chat_ib">
+                                    <h5><a href="{% url 'groupchat' entry.id %}">{{ entry.title }}</a>
+                                    </h5>
+
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+            <div class="mesgs">
+                <div class="msg_history">
+                    <ul>
+                        {% if chatMessages %}
+                        {% for message in chatMessages %}
+                        {% if message.creator.username == user.username %}
+                        <div class="outgoing_msg">
+                            <div class="sent_msg">
                                 <p>{{ message.message }}</p>
                                 <span class="time_date"> {{ message.createdAt }}</span>
                             </div>
                         </div>
+
+                        {% endif %}
+                        {% if message.creator.username != user.username %}
+                        <div class="incoming_msg">
+                            <div class="incoming_msg_img"><img
+                                    src="https://ptetutorials.com/images/user-profile.png" alt="sunil"></div>
+                            <div class="received_msg">
+                                <div class="received_withd_msg">
+                                    <p>{{ message.message }}</p>
+                                    <span class="time_date">{{ message.creator.username }} {{ message.createdAt }}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        {% endif %}
+                        {% endfor %}
+                        {% endif %}
+                    </ul>
+                </div>
+                <div class="type_msg">
+                    <div class="input_msg_write">
+                        <form method="Post" class="post-form" enctype="multipart/form-data">{% csrf_token %}
+                            <input type="text" name="MessageText" class="write_msg" placeholder="Type a message" />
+
+
+                            <button type="submit" class="msg_send_btn"><i class="fa fa-paper-plane-o"
+                                                                          aria-hidden="true"></i>
+                            </button>
+                        </form>
                     </div>
-                    <br/>
-                    {% endif %}
-                    {% endfor %}
-                    {% endif %}
-                </ul>
-            </div>
-            <div class="type_msg">
-                <div class="input_msg_write">
-                    <input type="text" class="write_msg" placeholder="Type a message"/>
-                    <button class="msg_send_btn" type="button"><i class="fa fa-paper-plane-o" aria-hidden="true"></i>
-                    </button> <!-- TODO: on button press function to create a chat message for the current chat. -->
                 </div>
             </div>
         </div>
     </div>
 </div>
-
 </body>
 {% endblock %}
