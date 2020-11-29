@@ -7,7 +7,7 @@
 </head>
 <body>
 {% load static %}
-<img width="200" src="{% static "Logo.png" %}" alt="My Image" />
+<a href="/uniChat/"> <img width="200" src="{% static "Logo.png" %}" alt="My Image"  /> </a>
 {% if user.is_authenticated %}
 {% include "nav_bar.html" %}
 {% endif %}
