@@ -3,7 +3,8 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.db.models import Q
 from .forms import SettingsForm, AddFriendForm, CreateGroupForm
-from .functionsUser import getFriendOfUser, getUserOrNone, getFriendlistOrNone, hasUserValidSettings
+from .functionsUser import getFriendOfUser, getUserOrNone, getFriendlistOrNone, hasUserValidSettings, \
+    getGroupchatUserIsMemberOrNone
 from .models import Settings, Friendlist, Groupchat, ChatMessage
 from .simpleGoogleTranslate import simpleGoogleTranslate
 import os, datetime
@@ -81,7 +82,7 @@ def showChat(request, friendChatId=None, groupChatId=None):
             chatMessages = ChatMessage.objects.filter(linkedFriendList=friendList)
 
     if groupChatId:
-        group = Groupchat.objects.get(id=groupChatId)
+        group = getGroupchatUserIsMemberOrNone(request.user, groupChatId)
 
     if group:
         chatname = group.title
