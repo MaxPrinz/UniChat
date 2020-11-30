@@ -10,7 +10,9 @@ urlpatterns = [
     # different chat-views
     path('userchat/<int:friend_id>', views.friendchat, name='friendchat'),
     path('groupchat/<int:group_id>', views.groupchat, name='groupchat'),
-    #path('globalchat', views.globalchat, name='global'),
+
+    # chat-content for ajax-load
+    path('ajax/getUserchatMessages/<int:friend_id>', views.ajaxfriendchat, name='ajaxfriendchat'),
 
     # add a new friend
     path('addfriend', views.addfriend, name='addfriend'),

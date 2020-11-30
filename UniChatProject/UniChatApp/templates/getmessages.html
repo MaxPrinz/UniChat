@@ -13,7 +13,7 @@
     {% if message.creator.username != user.username %}
     <div class="incoming_msg">
         <div class="incoming_msg_img"><img
-                src={{ message.ProfileImagePath }} alt="sunil"
+                src="{% url 'profilePicture' message.creator.id %}" alt="sunil"
                 onerror=this.src="https://ptetutorials.com/images/user-profile.png"></div>
         <div class="received_msg">
             <div class="received_withd_msg">

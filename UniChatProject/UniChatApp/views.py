@@ -124,18 +124,9 @@ def showChat(request, friendChatId=None, groupChatId=None):
     groupchatlist = Groupchat.objects.filter(Q(member=request.user) | Q(creator=request.user)).distinct
 
     # Translation of messages into the language defined in the settings
-    #load target language
-    targetLanguage = request.user.settings.language.iso
-    messagesTranlation = []
-    for oneEntry in chatMessages:
-        if oneEntry.language.iso != targetLanguage:
-            translatedText = simpleGoogleTranslate(f"{oneEntry.message}", oneEntry.language.iso, targetLanguage)
-            oneEntry.message = translatedText
-        if oneEntry.creator != request.user:
-            oneEntry.ProfileImagePath = '/uniChat/media/profile/' + str(oneEntry.creator.id)
-
-    # testtext=simpleGoogleTranslate(" Hallo du da   ", "de", "en")
-    # print(testtext)
+    messagesTranlation=translateChatMessages(chatMessages,
+                                             request.user.settings.language.iso,
+                                             request.user.settings.funMode)
 
     return render(request, "index.html", {'friendlist': friendlist,
                                           'groupchatlist': groupchatlist,
@@ -143,8 +134,8 @@ def showChat(request, friendChatId=None, groupChatId=None):
                                           'chatId': chatId,
                                           'currentChatImagePath': currentChatImagePath,
                                           'chattype': chattype,
-                                          'chatMessages': chatMessages,
-                                                     })
+                                          'chatMessages': messagesTranlation,
+    })
 
 
 # show form to add a new friend, includes processing variants (id, name or eMail given correct or wrong)
@@ -219,12 +210,56 @@ def creategroup(request):
 
     return render(request, 'creategroup.html', {'form': form,
                                                 'friends': friends})
+
+
+# just return the messenger_template for debugging issues
 def test(request):
     return render(request, 'messenger_template.html')
 
 
+# just return the profilepicture directly (for html img.src and similar)
 def showProfilePicture(request, user_id):
     file = open(os.path.join(settings.MEDIA_ROOT, "profile", str(user_id)), "rb")
     data = bytes(file.read())
     response = HttpResponse(data, content_type='image/jpeg')
     return response
+
+
+# translate given chat messages to the desired language of the current user
+def translateChatMessages(chatMessages, targetLanguage, funMode):
+    messagesTranlation = []
+    for oneEntry in chatMessages:
+        if oneEntry.language.iso != targetLanguage:
+            # TODO: Add Fun Mode
+            translatedText = simpleGoogleTranslate(oneEntry.message, oneEntry.language.iso, targetLanguage)
+            oneEntry.message = translatedText
+        messagesTranlation.append(oneEntry)
+    return messagesTranlation
+
+
+# ajax-functions: just show friend-chat-messages
+def ajaxfriendchat(request, friend_id):
+    return ajaxGetChatMessages(request, friendChatId=friend_id)
+
+
+# ajax-functions: does the stuff to return chat messages
+def ajaxGetChatMessages(request, friendChatId=None, groupChatId=None):
+    if not request.user.is_authenticated:
+        # just return an empty http response if user is not logged in
+        return HttpResponse()
+
+    chatMessages=[]
+
+    # if we are in a friend-chat, check if friendlistentry exist
+    if friendChatId:
+        friend = getFriendOfUser(request.user, friendChatId)
+        friendList = getFriendlistOrNone(creator=request.user, friend=friend)
+        if friendList:
+            chatMessages = ChatMessage.objects.filter(linkedFriendList=friendList)
+
+    # Translation and return just content
+    messagesTranlation=translateChatMessages(chatMessages, request.user.settings.language.iso, request.user.settings.funMode)
+    return render(request, "getmessages.html", {'chatMessages': messagesTranlation})
+
+
+
