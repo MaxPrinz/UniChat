@@ -17,7 +17,11 @@
         </div>
         <p><label for="id_member">Member:</label> <select name="member" required id="id_member" multiple>
             {% for i in friends %}
-            <option value="{{ i.friend.id }}">{{ i.friend.username }}</option>
+                {% if i.creator == user %}
+                    <option value="{{ i.friend.id }}">{{ i.friend.username }}</option>
+                {% else %}
+                     <option value="{{ i.creator.id }}">{{ i.creator.username }}</option>
+                {% endif %}
             {% endfor %}
 
         </select></p>

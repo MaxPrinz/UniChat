@@ -114,7 +114,7 @@ def showChat(request, friendChatId=None, groupChatId=None):
 
     if request.method == "POST":
             creator = request.user
-            createdAt = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
+            createdAt = datetime.datetime.now()
             language = request.user.settings.language
             message = str(request.POST.get("MessageText"))
             ChatMessage.objects.create(creator=creator, createdAt=createdAt, language=language, message=message,
@@ -195,7 +195,7 @@ def creategroup(request):
     if not request.user.is_authenticated:
         return redirect("login")
 
-    friends = Friendlist.objects.filter(creator=request.user)
+    friends = Friendlist.objects.filter(Q(creator=request.user) | Q(friend=request.user))
 
 
     # create chat in database
