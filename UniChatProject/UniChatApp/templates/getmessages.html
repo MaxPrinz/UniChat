@@ -1,0 +1,29 @@
+<ul>
+    {% if chatMessages %}
+    {% for message in chatMessages %}
+    {% if message.creator.username == user.username %}
+    <div class="outgoing_msg">
+        <div class="sent_msg">
+            <p>{{ message.message }}</p>
+            <span class="time_date"> {{ message.createdAt }}</span>
+        </div>
+    </div>
+
+    {% endif %}
+    {% if message.creator.username != user.username %}
+    <div class="incoming_msg">
+        <div class="incoming_msg_img"><img
+                src={{ message.ProfileImagePath }} alt="sunil"
+                onerror=this.src="https://ptetutorials.com/images/user-profile.png"></div>
+        <div class="received_msg">
+            <div class="received_withd_msg">
+                <p>{{ message.message }}</p>
+                <span class="time_date">{{ message.creator.username }} {{ message.createdAt }}</span>
+            </div>
+        </div>
+    </div>
+
+    {% endif %}
+    {% endfor %}
+    {% endif %}
+</ul>
