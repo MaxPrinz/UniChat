@@ -241,6 +241,9 @@ def translateChatMessages(chatMessages, targetLanguage, funMode):
 def ajaxfriendchat(request, friend_id):
     return ajaxGetChatMessages(request, friendChatId=friend_id)
 
+# ajax-functions: just show group-chat-messages
+def ajaxgroupchat(request, group_id):
+    return ajaxGetChatMessages(request, friendChatId=group_id)
 
 # ajax-functions: does the stuff to return chat messages
 def ajaxGetChatMessages(request, friendChatId=None, groupChatId=None):
@@ -256,6 +259,11 @@ def ajaxGetChatMessages(request, friendChatId=None, groupChatId=None):
         friendList = getFriendlistOrNone(creator=request.user, friend=friend)
         if friendList:
             chatMessages = ChatMessage.objects.filter(linkedFriendList=friendList)
+
+    if groupChatId:
+        group = Groupchat.objects.get(id=groupChatId)
+        if group:
+            chatMessages = ChatMessage.objects.filter(linkedGroupchat=groupChatId)
 
     # Translation and return just content
     messagesTranlation=translateChatMessages(chatMessages, request.user.settings.language.iso, request.user.settings.funMode)

@@ -11,8 +11,11 @@ urlpatterns = [
     path('userchat/<int:friend_id>', views.friendchat, name='friendchat'),
     path('groupchat/<int:group_id>', views.groupchat, name='groupchat'),
 
-    # chat-content for ajax-load
+    # chat-content for ajax-load friendchat
     path('ajax/getUserchatMessages/<int:friend_id>', views.ajaxfriendchat, name='ajaxfriendchat'),
+
+    # chat-content for ajax-load groupchat
+    path('ajax/getGroupchatMessages/<int:group_id>', views.ajaxgroupchat, name='ajaxgroupchat'),
 
     # add a new friend
     path('addfriend', views.addfriend, name='addfriend'),

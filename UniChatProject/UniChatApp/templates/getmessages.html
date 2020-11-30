@@ -8,7 +8,6 @@
             <span class="time_date"> {{ message.createdAt }}</span>
         </div>
     </div>
-
     {% endif %}
     {% if message.creator.username != user.username %}
     <div class="incoming_msg">
@@ -22,7 +21,6 @@
             </div>
         </div>
     </div>
-
     {% endif %}
     {% endfor %}
     {% endif %}
