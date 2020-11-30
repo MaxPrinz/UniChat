@@ -3,7 +3,8 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.db.models import Q
 from .forms import SettingsForm, AddFriendForm, CreateGroupForm
-from .functionsUser import getFriendOfUser, getUserOrNone, getFriendlistOrNone, hasUserValidSettings
+from .functionsUser import getFriendOfUser, getUserOrNone, getFriendlistOrNone, hasUserValidSettings, \
+    getGroupchatUserIsMemberOrNone
 from .models import Settings, Friendlist, Groupchat, ChatMessage
 from .simpleGoogleTranslate import simpleGoogleTranslate
 import os, datetime
@@ -81,7 +82,7 @@ def showChat(request, friendChatId=None, groupChatId=None):
             chatMessages = ChatMessage.objects.filter(linkedFriendList=friendList)
 
     if groupChatId:
-        group = Groupchat.objects.get(id=groupChatId)
+        group = getGroupchatUserIsMemberOrNone(request.user, groupChatId)
 
     if group:
         chatname = group.title
@@ -113,7 +114,7 @@ def showChat(request, friendChatId=None, groupChatId=None):
 
     if request.method == "POST":
             creator = request.user
-            createdAt = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
+            createdAt = datetime.datetime.now()
             language = request.user.settings.language
             message = str(request.POST.get("MessageText"))
             ChatMessage.objects.create(creator=creator, createdAt=createdAt, language=language, message=message,
@@ -194,7 +195,7 @@ def creategroup(request):
     if not request.user.is_authenticated:
         return redirect("login")
 
-    friends = Friendlist.objects.filter(creator=request.user)
+    friends = Friendlist.objects.filter(Q(creator=request.user) | Q(friend=request.user))
 
 
     # create chat in database

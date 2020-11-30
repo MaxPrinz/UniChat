@@ -1,7 +1,7 @@
 # useful functions for User-Management and User-Handling
 from django.contrib.auth.models import User
 
-from .models import Friendlist, Settings
+from .models import Friendlist, Settings, Groupchat
 
 
 # returns a user-object or None, if user not exits
@@ -58,3 +58,21 @@ def hasUserValidSettings(user):
         return False
     return True
 
+
+# get the groupchat, if user is member
+def getGroupchatUserIsMemberOrNone(user, group_id):
+    try:
+        group = Groupchat.objects.get(pk=group_id)
+    except Groupchat.DoesNotExist:
+        return None
+
+    # if user was creator, he is a member
+    if group.creator == user:
+        return group
+
+    # is user in member-list?
+    if user in group.member.all():
+        return group
+
+    # if we are here, user not found in groupchat nor created it
+    return None
