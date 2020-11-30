@@ -1,12 +1,16 @@
 {% extends 'base.html' %}
 {% block content %}
-    <h2>User Settings</h2>
+<head><link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+</head>
+<div class="container" align="center">
+    <h2 align="center">User Settings</h2>
     <p>Your ID: {{ user.id }}</p>
     <p>Your name: {{ user.first_name }} {{ user.last_name}} </p>
-    <p>Your Profile Picture: <img src="{% url 'profilePicture' user.id %}" width="300" /></p>
+    <p>Your Profile Picture: <br> <img src="{% url 'profilePicture' user.id %}" width="300" /></p>
     <form method="POST" class="post-form" enctype="multipart/form-data">{% csrf_token %}
         {{ form.as_p }}
-        <button type="submit" class="save btn btn-default">Save</button>
+        <button class="btn btn-primary" type="submit" class="save btn btn-default">Save</button>
     </form>
+</div>
 
 {% endblock %}

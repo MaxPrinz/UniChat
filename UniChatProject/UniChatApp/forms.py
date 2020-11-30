@@ -6,7 +6,7 @@ class SettingsForm(forms.ModelForm):
 
     class Meta:
          model = Settings
-         fields = ('language', 'funMode', 'hideLastLogin', 'image')
+         fields = ('image', 'language', 'funMode', 'hideLastLogin')
 
 
 class AddFriendForm(forms.Form):
