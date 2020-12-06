@@ -231,8 +231,15 @@ def showProfilePicture(request, user_id):
 def translateChatMessages(chatMessages, targetLanguage, funMode):
     messagesTranlation = []
     for oneEntry in chatMessages:
-        if oneEntry.language.iso != targetLanguage:
-            # TODO: Add Fun Mode
+        if funMode:
+            translatedText = oneEntry.message
+            iso = oneEntry.language.iso
+            for i in settings.FUNMODELANGUAGES:
+                translatedText = simpleGoogleTranslate(translatedText, iso, i)
+                iso = i
+            translatedText = simpleGoogleTranslate(translatedText, iso, targetLanguage)
+            oneEntry.message = translatedText
+        elif targetLanguage != oneEntry.language.iso:
             translatedText = simpleGoogleTranslate(oneEntry.message, oneEntry.language.iso, targetLanguage)
             oneEntry.message = translatedText
         messagesTranlation.append(oneEntry)

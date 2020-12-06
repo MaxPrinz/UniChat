@@ -15,7 +15,6 @@
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
-<!-- TODO: set the scrollbar for messages to the bottom on default to show the latest messages -->
 <div class="container">
     <br>
     <div class="messaging">
@@ -124,7 +123,7 @@
                 olddata = data;
             }
         });
-            setTimeout(updateChat, 1000);
+            setTimeout(updateChat, 5000);
         }
         var olddata = '';
         updateChat();
