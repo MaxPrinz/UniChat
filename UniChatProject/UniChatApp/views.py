@@ -89,6 +89,7 @@ def showChat(request, friendChatId=None, groupChatId=None):
         chattype = "group"
         chatMessages = ChatMessage.objects.filter(linkedGroupchat=groupChatId)
         currentChatImagePath = 'https://cdn3.iconfinder.com/data/icons/speech-bubble-2/100/Group-512.png'
+        chatId = groupChatId
 
     if friend == None and group == None:
         chattype = "global"
@@ -244,7 +245,11 @@ def ajaxfriendchat(request, friend_id):
 
 # ajax-functions: just show group-chat-messages
 def ajaxgroupchat(request, group_id):
-    return ajaxGetChatMessages(request, friendChatId=group_id)
+    return ajaxGetChatMessages(request, groupChatId=group_id)
+
+# ajax-functions: just show global-chat-messages
+def ajaxglobalchat(request):
+    return ajaxGetChatMessages(request)
 
 # ajax-functions: does the stuff to return chat messages
 def ajaxGetChatMessages(request, friendChatId=None, groupChatId=None):
@@ -266,9 +271,9 @@ def ajaxGetChatMessages(request, friendChatId=None, groupChatId=None):
         if group:
             chatMessages = ChatMessage.objects.filter(linkedGroupchat=groupChatId)
 
+    if friendChatId == None and groupChatId == None:
+        chatMessages = ChatMessage.objects.filter(linkedGroupchat=None).filter(linkedFriendList=None)
+
     # Translation and return just content
     messagesTranlation=translateChatMessages(chatMessages, request.user.settings.language.iso, request.user.settings.funMode)
     return render(request, "getmessages.html", {'chatMessages': messagesTranlation})
-
-
-

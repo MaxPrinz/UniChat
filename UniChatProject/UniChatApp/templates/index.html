@@ -17,7 +17,7 @@
 <body>
 <!-- TODO: set the scrollbar for messages to the bottom on default to show the latest messages -->
 <div class="container">
-<br>
+    <br>
     <div class="messaging">
         <div class="inbox_msg">
             <div class="inbox_people">
@@ -85,13 +85,13 @@
                 </div>
             </div>
             <div class="mesgs">
-                <div class="msg_history">
-                {% include 'getmessages.html' %}
+                <div id="ajaxMessages" class="msg_history">
+                    {% include 'getmessages.html' %}
                 </div>
                 <div class="type_msg">
                     <div class="input_msg_write">
                         <form method="Post" class="post-form" enctype="multipart/form-data">{% csrf_token %}
-                            <input type="text" name="MessageText" class="write_msg" placeholder="Type a message" />
+                            <input type="text" name="MessageText" class="write_msg" placeholder="Type a message"/>
 
 
                             <button type="submit" class="msg_send_btn"><i class="fa fa-paper-plane-o"
@@ -104,5 +104,32 @@
         </div>
     </div>
 </div>
+<script>
+    function updateChat() {
+        $.ajax({
+            {% if chattype == 'friend' %}
+            url: "{% url 'ajaxfriendchat' chatId %}"
+            {% endif %}
+            {% if chattype == 'group' %}
+            url: "{% url 'ajaxgroupchat' chatId %}"
+            {% endif %}
+            {% if chattype == 'global' %}
+            url: "{% url 'ajaxglobalchat' %}"
+            {% endif %}
+        })
+        .done(function (data) {
+            if (data!= olddata){
+                $("#ajaxMessages").html(data);
+                $('#ajaxMessages').scrollTop($('#ajaxMessages ul').height());
+                olddata = data;
+            }
+        });
+            setTimeout(updateChat, 1000);
+        }
+        var olddata = '';
+        updateChat();
+</script>
+
 </body>
 {% endblock %}
+

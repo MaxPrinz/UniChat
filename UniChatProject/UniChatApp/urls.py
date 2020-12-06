@@ -17,6 +17,9 @@ urlpatterns = [
     # chat-content for ajax-load groupchat
     path('ajax/getGroupchatMessages/<int:group_id>', views.ajaxgroupchat, name='ajaxgroupchat'),
 
+    # chat-content for ajax-load globalchat
+    path('ajax/getGlobalMessages', views.ajaxglobalchat, name='ajaxglobalchat'),
+
     # add a new friend
     path('addfriend', views.addfriend, name='addfriend'),
 
