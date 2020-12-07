@@ -136,6 +136,8 @@ MEDIA_URL = '/uniChat/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
 
+# Cache Timeout in sec
+CACHETIMEOUT=6000
 
 # import local settings, that are not synced via git
 from .settings_local import *
