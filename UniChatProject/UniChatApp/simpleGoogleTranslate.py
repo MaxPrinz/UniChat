@@ -55,6 +55,7 @@ def simpleGoogleTranslate(text, srcLan, dstLan):
     if result['data'] and result['data']['translations'] and result['data']['translations'][0] and result['data']['translations'][0]['translatedText']:
         translatedValue=result['data']['translations'][0]['translatedText']
         cache.set(key,translatedValue,settings.CACHETIMEOUT)
+        return translatedValue
 
 
     # no good result returned from api

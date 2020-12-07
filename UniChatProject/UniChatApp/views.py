@@ -1,3 +1,5 @@
+import time
+
 from django.conf import settings
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
@@ -235,6 +237,7 @@ def translateChatMessages(chatMessages, targetLanguage, funMode):
             translatedText = oneEntry.message
             iso = oneEntry.language.iso
             for i in settings.FUNMODELANGUAGES:
+                print ("Funmode: "+iso+"->"+i+":"+translatedText)
                 translatedText = simpleGoogleTranslate(translatedText, iso, i)
                 iso = i
             translatedText = simpleGoogleTranslate(translatedText, iso, targetLanguage)
