@@ -277,7 +277,7 @@ def ajaxGetChatMessages(request, friendChatId=None, groupChatId=None):
             chatMessages = ChatMessage.objects.filter(linkedFriendList=friendList)
 
     if groupChatId:
-        group = Groupchat.objects.get(id=groupChatId)
+        group = getGroupchatUserIsMemberOrNone(request.user, groupChatId)
         if group:
             chatMessages = ChatMessage.objects.filter(linkedGroupchat=groupChatId)
 
