@@ -13,3 +13,7 @@ GOOGLEAPIKEY=123
 
 # Languages for fun-mode
 FUNMODELANGUAGES = ['en', 'fr', 'cn', 'ru', 'es']
+
+# Google Recaptcha Public and Private Keys
+RECAPTCHA_PUBLIC_KEY='123'
+RECAPTCHA_PRIVATE_KEY='12345'
