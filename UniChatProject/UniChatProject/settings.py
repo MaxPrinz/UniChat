@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'UniChatApp.apps.UnichatappConfig',
     'accounts',
     'crispy_forms',
+    'captcha',
+
 ]
 
 MIDDLEWARE = [
