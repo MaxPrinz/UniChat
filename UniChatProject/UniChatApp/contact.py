@@ -59,7 +59,7 @@ def contactMap(request):
             htmlcontend = get_template('emailTamplate.html').render(message) #formats/creates email
             message = Mail(
                 from_email='unilichat@gmail.com',
-                to_emails=["ninambulling@gmail.com"],
+                to_emails=settings.CONTACT_RECEIVERS,
 
                 subject=subject,
 
