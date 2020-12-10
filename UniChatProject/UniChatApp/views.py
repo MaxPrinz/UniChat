@@ -10,6 +10,7 @@ from .functionsUser import getFriendOfUser, getUserOrNone, getFriendlistOrNone, 
 from .models import Settings, Friendlist, Groupchat, ChatMessage
 from .simpleGoogleTranslate import simpleGoogleTranslate
 import os, datetime
+from .contact import contactMap
 
 # Create your views here.
 
@@ -287,3 +288,20 @@ def ajaxGetChatMessages(request, friendChatId=None, groupChatId=None):
     # Translation and return just content
     messagesTranlation=translateChatMessages(chatMessages, request.user.settings.language.iso, request.user.settings.funMode)
     return render(request, "getmessages.html", {'chatMessages': messagesTranlation})
+
+
+def impressum(request):
+    return render(request, 'impressum.html')
+
+
+def aboutUs(request):
+    return render(request, 'aboutUs.html')
+
+def contact(request):
+    # user is authenticated.Pre-Fill contect data in form
+    #if request.user.is_authenticated:
+
+    #else:
+
+    #return showChat(request)
+    return contactMap(request)

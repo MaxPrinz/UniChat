@@ -42,5 +42,12 @@ urlpatterns = [
     path('media/profile/<int:user_id>', views.showProfilePicture, name='profilePicture'),
 
     #test
-    path('test', views.test)
+    path('test', views.test),
+
+    #impressum
+    path('impressum/', views.impressum, name='impressum'),
+    #Contact
+    path('contact/', views.contact, name='contact'),
+    #About Us
+    path('aboutUs/', views.aboutUs, name='aboutUs')
 ]

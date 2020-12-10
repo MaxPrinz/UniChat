@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'UniChatApp.apps.UnichatappConfig',
     'accounts',
+    'crispy_forms',
 ]
 
 MIDDLEWARE = [
