@@ -24,4 +24,4 @@ Type the following commands in the terminal-window of PyCharm to create superuse
 * use the /admin path in your browser for the django-admin (you must be superuser to use that) 
 
 # Documentation
-Please follow [this Link](https://github.com/MaxPrinz/ISD-Project-BullingPilzPrinz/wiki).
+Please follow [this Link](https://github.com/MaxPrinz/UniChat/wiki).
