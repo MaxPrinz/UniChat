@@ -58,6 +58,8 @@ class ChatMessage(models.Model):
     message = models.CharField(max_length=1000)
     language = models.ForeignKey(Language, on_delete=models.CASCADE)
 
-    # TODO: Add useful name for admin  <-- what is meant by that?
+    def __str__(self):
+        return str(self.creator) + " to [" + str(self.linkedFriendList) + "/" + str(self.linkedGroupchat) + "]: " + str(self.message)
+
 
 

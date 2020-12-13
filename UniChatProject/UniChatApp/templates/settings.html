@@ -6,6 +6,7 @@
     <h2 align="center">User Settings</h2>
     <p>Your ID: {{ user.id }}</p>
     <p>Your name: {{ user.first_name }} {{ user.last_name}} </p>
+    <p>Your username: {{ user.username }}</p>
     <p>Your Profile Picture: <br> <img src="{% url 'profilePicture' user.id %}" width="300" /></p>
     <form method="POST" class="post-form" enctype="multipart/form-data">{% csrf_token %}
         {{ form.as_p }}
